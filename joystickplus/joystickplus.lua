@@ -1,6 +1,6 @@
 local addonName = "JOYSTICKPLUS"
 local addonNameLower = string.lower(addonName)
-local author = "schale_tos"
+local author = "schale-tos"
 
 _G["ADDONS"] = _G["ADDONS"] or {}
 _G["ADDONS"][author] = _G["ADDONS"][author] or {}
@@ -81,7 +81,9 @@ function g.REMODELING_JOYSTICKPLUS_QUICKSLOT()
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
 	jsqFrame:GetChild("Set2"):ShowWindow(1)
 	
-	jsqFrame:ShowWindow(1)
+	if IsJoyStickMode() == 1 then
+		jsqFrame:ShowWindow(1)
+	end
 	
 	jsqFrame:Invalidate()
 end
@@ -113,7 +115,9 @@ function g.REMODELING_DEFAULT_JOYSTICK_QUICKSLOT()
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
 	jsqFrame:GetChild("Set2"):ShowWindow(0)
 
-	jsqFrame:ShowWindow(1)
+	if IsJoyStickMode() == 1 then
+		jsqFrame:ShowWindow(1)
+	end
 	
 	jsqFrame:Invalidate()
 end
@@ -279,8 +283,6 @@ function g.ENABLE_JOYSTICKPLUS()
 	
 	g.config.enable = true
 	g.SAVE_CONFIG()
-	
-	g.PRINT_MESSAGE("JoyStick+ enabled.")
 end
 
 -- Restore
@@ -291,8 +293,6 @@ function g.DISABLE_JOYSTICKPLUS()
 	
 	g.config.enable = false
 	g.SAVE_CONFIG()
-	
-	g.PRINT_MESSAGE("JoyStick+ disabled.")
 end
 
 -- System Option Flag
