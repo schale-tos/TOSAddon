@@ -327,18 +327,8 @@ function g.JOYSTICKPLUS_SLASHCOMMAND(command)
 	g.PRINT_MESSAGE("/joystick+ [on/off]")
 end
 
--- Init
-function JOYSTICKPLUS_INIT()
-	g.ENABLE_JOYSTICKPLUS()
-end
-
-function JOYSTICKPLUS_ON_INIT(addon, frame)
-	local acutil = require('acutil')
-	
-	g.LOAD_CONFIG()
-	
-	acutil.slashCommand("/joystick+", g.JOYSTICKPLUS_SLASHCOMMAND)	
-	
+-- Setting
+function g.ADD_SETTING(addon)
 	local sysopFrame = ui.GetFrame('systemoption')
 	local uiModeBox = sysopFrame:GetChildRecursively("uiModeBox")
 	local gamePVPSetting = sysopFrame:GetChildRecursively("gamePVPSetting")
@@ -367,6 +357,21 @@ function JOYSTICKPLUS_ON_INIT(addon, frame)
 	else
 		controltype_jpex:SetCheck(0)
 	end
+end
+
+-- Init
+function JOYSTICKPLUS_INIT()
+	g.ENABLE_JOYSTICKPLUS()
+end
+
+function JOYSTICKPLUS_ON_INIT(addon, frame)
+	local acutil = require('acutil')
+	
+	g.LOAD_CONFIG()
+	
+	acutil.slashCommand("/joystick+", g.JOYSTICKPLUS_SLASHCOMMAND)	
+	
+	g.ADD_SETTING(addon)
 end
 
 -- load message
