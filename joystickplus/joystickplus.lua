@@ -66,6 +66,7 @@ end
 -- View
 function g.REMODELING_JOYSTICKPLUS_QUICKSLOT()
 	local jsqFrame = ui.GetFrame('joystickquickslot')
+	local joystickRestFrame = ui.GetFrame('joystickrestquickslot')
 
 	jsqFrame:ShowWindow(0)
 	
@@ -91,7 +92,7 @@ function g.REMODELING_JOYSTICKPLUS_QUICKSLOT()
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
 	jsqFrame:GetChild("Set2"):ShowWindow(1)
 	
-	if IsJoyStickMode() == 1 then
+	if IsJoyStickMode() == 1 and joystickRestFrame:IsVisible() == 0 then
 		jsqFrame:ShowWindow(1)
 	end
 	
@@ -100,6 +101,7 @@ end
 
 function g.REMODELING_DEFAULT_JOYSTICK_QUICKSLOT()
 	local jsqFrame = ui.GetFrame('joystickquickslot')
+	local joystickRestFrame = ui.GetFrame('joystickrestquickslot')
 
 	jsqFrame:ShowWindow(0)
 	
@@ -125,7 +127,7 @@ function g.REMODELING_DEFAULT_JOYSTICK_QUICKSLOT()
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
 	jsqFrame:GetChild("Set2"):ShowWindow(0)
 
-	if IsJoyStickMode() == 1 then
+	if IsJoyStickMode() == 1 and joystickRestFrame:IsVisible() == 0 then
 		jsqFrame:ShowWindow(1)
 	end
 	
