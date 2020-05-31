@@ -53,9 +53,20 @@ function g.GET_JOYSTICK_LR()
 	return (input_L1 * 1) + (input_L2 * 2) + (input_R1 * 4) + (input_R2 * 8)
 end
 
+function g.UPDATE_SLOT_SKIN(frame, enable, target)
+	local current_skin = frame:GetChildRecursively(target):GetSkinName()
+	
+	if enable and current_skin == padslot_offskin then
+		frame:GetChildRecursively(target):SetSkinName(padslot_onskin)
+	elseif not enable and current_skin == padslot_onskin then
+		frame:GetChildRecursively(target):SetSkinName(padslot_offskin)
+	end
+end
+
 -- View
 function g.REMODELING_JOYSTICKPLUS_QUICKSLOT()
 	local jsqFrame = ui.GetFrame('joystickquickslot')
+	local joystickRestFrame = ui.GetFrame('joystickrestquickslot')
 
 	jsqFrame:ShowWindow(0)
 	
@@ -81,7 +92,7 @@ function g.REMODELING_JOYSTICKPLUS_QUICKSLOT()
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
 	jsqFrame:GetChild("Set2"):ShowWindow(1)
 	
-	if IsJoyStickMode() == 1 then
+	if IsJoyStickMode() == 1 and joystickRestFrame:IsVisible() == 0 then
 		jsqFrame:ShowWindow(1)
 	end
 	
@@ -90,6 +101,7 @@ end
 
 function g.REMODELING_DEFAULT_JOYSTICK_QUICKSLOT()
 	local jsqFrame = ui.GetFrame('joystickquickslot')
+	local joystickRestFrame = ui.GetFrame('joystickrestquickslot')
 
 	jsqFrame:ShowWindow(0)
 	
@@ -115,7 +127,7 @@ function g.REMODELING_DEFAULT_JOYSTICK_QUICKSLOT()
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
 	jsqFrame:GetChild("Set2"):ShowWindow(0)
 
-	if IsJoyStickMode() == 1 then
+	if IsJoyStickMode() == 1 and joystickRestFrame:IsVisible() == 0 then
 		jsqFrame:ShowWindow(1)
 	end
 	
@@ -148,27 +160,27 @@ function g.UPDATE_JOYSTICK_INPUT_HOOK(frame)
 	local input_LR = g.GET_JOYSTICK_LR()
 	
 	-- 1: L1
-	frame:GetChildRecursively("L1_slot_Set1"):SetSkinName(input_LR == 1 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 1, "L1_slot_Set1")
 	-- 2: L2
-	frame:GetChildRecursively("L2_slot_Set1"):SetSkinName(input_LR == 2 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 2, "L2_slot_Set1")
 	-- 3: L1 + L2
-	frame:GetChildRecursively("L1_slot_Set2"):SetSkinName(input_LR == 3 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 3, "L1_slot_Set2")
 	-- 4: R1
-	frame:GetChildRecursively("R1_slot_Set1"):SetSkinName(input_LR == 4 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 4, "R1_slot_Set1")
 	-- 5: L1 + R1
-	frame:GetChildRecursively("L1R1_slot_Set1"):SetSkinName(input_LR == 5 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 5, "L1R1_slot_Set1")
 	-- 6: L2 + R1
-	frame:GetChildRecursively("R2_slot_Set2"):SetSkinName(input_LR == 6 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 6, "R2_slot_Set2")
 	-- 7: L1 + L2 + R1
 	-- 8: R2
-	frame:GetChildRecursively("R2_slot_Set1"):SetSkinName(input_LR == 8 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 8, "R2_slot_Set1")
 	-- 9: L1 + R2
-	frame:GetChildRecursively("L2_slot_Set2"):SetSkinName(input_LR == 9 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 9, "L2_slot_Set2")
 	-- 10:L2 + R2
-	frame:GetChildRecursively("L1R1_slot_Set2"):SetSkinName(input_LR == 10 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 10, "L1R1_slot_Set2")
 	-- 11:L1 + L2 + R2
 	-- 12:R1 + R2 (rest)
-	frame:GetChildRecursively("R1_slot_Set2"):SetSkinName(input_LR == 12 and padslot_onskin or padslot_offskin);
+	g.UPDATE_SLOT_SKIN(frame, input_LR == 12, "R1_slot_Set2")
 	-- 13:L1 + R1 + R2
 	-- 14:L2 + R1 + R2
 	-- 15:L1 + L2 + R1 + R2
@@ -327,18 +339,8 @@ function g.JOYSTICKPLUS_SLASHCOMMAND(command)
 	g.PRINT_MESSAGE("/joystick+ [on/off]")
 end
 
--- Init
-function JOYSTICKPLUS_INIT()
-	g.ENABLE_JOYSTICKPLUS()
-end
-
-function JOYSTICKPLUS_ON_INIT(addon, frame)
-	local acutil = require('acutil')
-	
-	g.LOAD_CONFIG()
-	
-	acutil.slashCommand("/joystick+", g.JOYSTICKPLUS_SLASHCOMMAND)	
-	
+-- Setting
+function g.ADD_SETTING(addon)
 	local sysopFrame = ui.GetFrame('systemoption')
 	local uiModeBox = sysopFrame:GetChildRecursively("uiModeBox")
 	local gamePVPSetting = sysopFrame:GetChildRecursively("gamePVPSetting")
@@ -367,6 +369,21 @@ function JOYSTICKPLUS_ON_INIT(addon, frame)
 	else
 		controltype_jpex:SetCheck(0)
 	end
+end
+
+-- Init
+function JOYSTICKPLUS_INIT()
+	g.ENABLE_JOYSTICKPLUS()
+end
+
+function JOYSTICKPLUS_ON_INIT(addon, frame)
+	local acutil = require('acutil')
+	
+	g.LOAD_CONFIG()
+	
+	acutil.slashCommand("/joystick+", g.JOYSTICKPLUS_SLASHCOMMAND)	
+	
+	g.ADD_SETTING(addon)
 end
 
 -- load message
