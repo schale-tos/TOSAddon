@@ -64,69 +64,37 @@ function g.UPDATE_SLOT_SKIN(frame, enable, target)
 end
 
 -- View
-function g.REMODELING_JOYSTICKPLUS_QUICKSLOT()
+function g.REMODELING_JOYSTICK_QUICKSLOT(enable)
+	local const = {}
 	local jsqFrame = ui.GetFrame('joystickquickslot')
 	local joystickRestFrame = ui.GetFrame('joystickrestquickslot')
+	
+	const[true]  = {270,120,-330,230,0,"yellow_14_ol","yellow_14_ol","L1+L2","L1+R2","R1+R2","R1+L2","L2+R2",9,11,9,11,1}
+	const[false] = {170, 15,-145,  3,1,"yellow_16_ol","yellow_14_ol","L1","L2","R1","R2","L1+R1",20,10,9,11,0}
 
 	jsqFrame:ShowWindow(0)
-	
-	jsqFrame:Resize(1920,270)
-	jsqFrame:GetChild("Set2"):SetOffset(0,120)
+	jsqFrame:Resize(1920,const[enable][1])
+	jsqFrame:GetChild("Set2"):SetOffset(0,const[enable][2])
 	
 	local refreshBtn = jsqFrame:GetChild("refreshBtn")
-	refreshBtn:SetMargin(-330,230,0,0)
+	refreshBtn:SetMargin(const[enable][3],const[enable][4],0,0)
 	refreshBtn:SetGravity(ui.CENTER_HORZ, ui.TOP)
 	refreshBtn:ShowWindow(1)
 	
-	jsqFrame:GetChild("L2R2"):ShowWindow(0)
-	jsqFrame:GetChild("L2R2_Set1"):ShowWindow(0)
-	jsqFrame:GetChild("L2R2_Set2"):ShowWindow(0)
+	jsqFrame:GetChild("L2R2"):ShowWindow(const[enable][5])
+	jsqFrame:GetChild("L2R2_Set1"):ShowWindow(const[enable][5])
+	jsqFrame:GetChild("L2R2_Set2"):ShowWindow(const[enable][5])
 
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L1_Set2"), "L1+L2", "yellow_14_ol", 9,11,0,0)
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L2_Set2"), "L1+R2", "yellow_14_ol", 9,11,0,0)
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("R1_Set2"), "R1+R2", "yellow_14_ol", 9,11,0,0)
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("R2_Set2"), "R1+L2", "yellow_14_ol", 9,11,0,0)
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L1+R1_Set2"), "L2+R2", "yellow_14_ol", 9,11,0,0)
+	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L1_Set2"), const[enable][8], const[enable][6], const[enable][13],const[enable][14],0,0)
+	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L2_Set2"), const[enable][9], const[enable][6], const[enable][13],const[enable][14],0,0)
+	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("R1_Set2"), const[enable][10], const[enable][6], const[enable][13],const[enable][14],0,0)
+	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("R2_Set2"), const[enable][11], const[enable][6], const[enable][13],const[enable][14],0,0)
+	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L1+R1_Set2"), const[enable][12], const[enable][7], const[enable][15],const[enable][16],0,0)
 	
 	QUICKSLOT_REQUEST_REFRESH(jsqFrame, refreshBtn)
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
-	jsqFrame:GetChild("Set2"):ShowWindow(1)
+	jsqFrame:GetChild("Set2"):ShowWindow(const[enable][17])
 	
-	if IsJoyStickMode() == 1 and joystickRestFrame:IsVisible() == 0 then
-		jsqFrame:ShowWindow(1)
-	end
-	
-	jsqFrame:Invalidate()
-end
-
-function g.REMODELING_DEFAULT_JOYSTICK_QUICKSLOT()
-	local jsqFrame = ui.GetFrame('joystickquickslot')
-	local joystickRestFrame = ui.GetFrame('joystickrestquickslot')
-
-	jsqFrame:ShowWindow(0)
-	
-	jsqFrame:Resize(1920,170)
-	jsqFrame:GetChild("Set2"):SetOffset(0,15)
-	
-	local refreshBtn = jsqFrame:GetChild("refreshBtn")
-	refreshBtn:SetMargin(-145,3,0,0)
-	refreshBtn:SetGravity(ui.CENTER_HORZ, ui.TOP)
-	refreshBtn:ShowWindow(1)
-	
-	jsqFrame:GetChild("L2R2"):ShowWindow(1)
-	jsqFrame:GetChild("L2R2_Set1"):ShowWindow(1)
-	jsqFrame:GetChild("L2R2_Set2"):ShowWindow(1)
-	
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L1_Set2"), "L1", "yellow_16_ol", 20,10,0,0)
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L2_Set2"), "L2", "yellow_16_ol", 20,10,0,0)
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("R1_Set2"), "R1", "yellow_16_ol", 20,10,0,0)
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("R2_Set2"), "R2", "yellow_16_ol", 20,10,0,0)
-	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L1+R1_Set2"), "L1+R1", "yellow_14_ol", 9,11,0,0)
-
-	QUICKSLOT_REQUEST_REFRESH(jsqFrame, refreshBtn)
-	jsqFrame:GetChild("Set1"):ShowWindow(1)
-	jsqFrame:GetChild("Set2"):ShowWindow(0)
-
 	if IsJoyStickMode() == 1 and joystickRestFrame:IsVisible() == 0 then
 		jsqFrame:ShowWindow(1)
 	end
@@ -238,81 +206,53 @@ function g.JOYSTICK_QUICKSLOT_SWAP_HOOK(test)
 end
 
 -- Apply hook
-function g.APPLY_HOOK()
-	-- UI Mode Change
-	if (not g.UI_MODE_CHANGE) then
-		g.UI_MODE_CHANGE = _G["UI_MODE_CHANGE"]
+function g.SETUP_HOOK(enable, target)
+	if enable then
+		if not g[target] then
+			g[target] = _G[target]
+		end
+		_G[target] = g[target .. "_HOOK"]
+	else
+		if g[target] then
+			_G[target] = g[target]
+		end
 	end
-	_G["UI_MODE_CHANGE"] = g.UI_MODE_CHANGE_HOOK
-	-- JoyStick Input
-	if (not g.JOYSTICK_INPUT) then
-		g.JOYSTICK_INPUT = _G["JOYSTICK_INPUT"]
-	end
-	_G["JOYSTICK_INPUT"] = g.JOYSTICK_INPUT_HOOK
-	-- JoyStick Update Input
-	if (not g.UPDATE_JOYSTICK_INPUT) then
-		g.UPDATE_JOYSTICK_INPUT = _G["UPDATE_JOYSTICK_INPUT"]
-	end
-	_G["UPDATE_JOYSTICK_INPUT"] = g.UPDATE_JOYSTICK_INPUT_HOOK
-	-- JoyStick QuickSlot Execute
-	if (not g.JOYSTICK_QUICKSLOT_EXECUTE) then
-		g.JOYSTICK_QUICKSLOT_EXECUTE = _G["JOYSTICK_QUICKSLOT_EXECUTE"]
-	end
-	_G["JOYSTICK_QUICKSLOT_EXECUTE"] = g.JOYSTICK_QUICKSLOT_EXECUTE_HOOK
-	-- Quest Warp
-	if (not g.SELECT_QUEST_WARP) then
-		g.SELECT_QUEST_WARP = _G["SELECT_QUEST_WARP"]
-	end
-	_G["SELECT_QUEST_WARP"] = g.SELECT_QUEST_WARP_HOOK
+end
+
+function g.ENABLE_HOOK(enable)
+	g.SETUP_HOOK(enable, "UI_MODE_CHANGE")
+	g.SETUP_HOOK(enable, "JOYSTICK_INPUT")
+	g.SETUP_HOOK(enable, "UPDATE_JOYSTICK_INPUT")
+	g.SETUP_HOOK(enable, "JOYSTICK_QUICKSLOT_EXECUTE")
+	g.SETUP_HOOK(enable, "SELECT_QUEST_WARP")
+	g.SETUP_HOOK(enable, "JOYSTICK_QUICKSLOT_SWAP")
 	-- Rest Sit
-	if (not g.RestSit) then
-		g.RestSit = control.RestSit
+	if enable then
+		if (not g.RestSit) then
+			g.RestSit = control.RestSit
+		end
+		control.RestSit = g.RESTSIT_HOOK
+	else
+		if g.RestSit then
+			control.RestSit = g.RestSit
+		end
 	end
-	control.RestSit = g.RESTSIT_HOOK
-	-- JoyStick QuickSlot Swap
-	if (not g.JOYSTICK_QUICKSLOT_SWAP) then
-		g.JOYSTICK_QUICKSLOT_SWAP = _G["JOYSTICK_QUICKSLOT_SWAP"]
-	end
-	_G["JOYSTICK_QUICKSLOT_SWAP"] = g.JOYSTICK_QUICKSLOT_SWAP_HOOK
 end
 
--- Cancel hook
-function g.CANCEL_HOOK()
-	_G["UI_MODE_CHANGE"] = g.UI_MODE_CHANGE
-	_G["JOYSTICK_INPUT"] = g.JOYSTICK_INPUT
-	_G["UPDATE_JOYSTICK_INPUT"] = g.UPDATE_JOYSTICK_INPUT
-	_G["JOYSTICK_QUICKSLOT_EXECUTE"] = g.JOYSTICK_QUICKSLOT_EXECUTE
-	_G["SELECT_QUEST_WARP"] = g.SELECT_QUEST_WARP
-	control.RestSit = g.RestSit
-	_G["JOYSTICK_QUICKSLOT_SWAP"] = g.JOYSTICK_QUICKSLOT_SWAP
-end
-
--- Expand
-function g.ENABLE_JOYSTICKPLUS()
-	g.APPLY_HOOK()
-	
-	g.REMODELING_JOYSTICKPLUS_QUICKSLOT()
-	
-	g.config.enable = true
-	g.SAVE_CONFIG()
-end
-
--- Restore
-function g.DISABLE_JOYSTICKPLUS()
-	g.CANCEL_HOOK()
-
-	g.REMODELING_DEFAULT_JOYSTICK_QUICKSLOT()
-	
-	g.config.enable = false
+-- Enable/Disable
+function g.ENABLE_JOYSTICKPLUS(enable)
+	g.ENABLE_HOOK(enable)
+	g.REMODELING_JOYSTICK_QUICKSLOT(enable)
+	g.config.enable = enable
 	g.SAVE_CONFIG()
 end
 
 -- System Option Flag
 function JOYSTICKPLUS_SYSTEMOPTION(frame, ctrl, argStr, argNum)
 	if ctrl:IsChecked() == 1 then
-		g.ENABLE_JOYSTICKPLUS()
+		g.ENABLE_JOYSTICKPLUS(true)
 	else
-		g.DISABLE_JOYSTICKPLUS()
+		g.ENABLE_JOYSTICKPLUS(false)
 	end
 end
 
@@ -327,11 +267,11 @@ function g.JOYSTICKPLUS_SLASHCOMMAND(command)
 		param = table.remove(command, 1)
 		if param == "on" then
 			controltype_jpex:SetCheck(1)
-			g.ENABLE_JOYSTICKPLUS()
+			g.ENABLE_JOYSTICKPLUS(true)
 			return
 		elseif param == "off" then
 			controltype_jpex:SetCheck(0)
-			g.DISABLE_JOYSTICKPLUS()
+			g.ENABLE_JOYSTICKPLUS(false)
 			return
 		end
 	end
@@ -373,7 +313,7 @@ end
 
 -- Init
 function JOYSTICKPLUS_INIT()
-	g.ENABLE_JOYSTICKPLUS()
+	g.ENABLE_JOYSTICKPLUS(true)
 end
 
 function JOYSTICKPLUS_ON_INIT(addon, frame)
