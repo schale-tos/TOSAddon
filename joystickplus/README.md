@@ -42,10 +42,10 @@
 |L2+R2|クイックスロットのSET1/SET2切り替え|-|
 |L2+R2+(A,B,X,Y)|-|クイックスロットの指定枠を実行|
 |SELECT|クエストワープ|コンパニオンに乗る|
-|L1+SELECT|-|`/comeon`|
-|L2+SELECT|-|コンパニオンから降りる|
-|R1+SELECT|MAP表示|（変更なし）|
-|R2+SELECT|-|クエストワープ|
+|R1+SELECT|-|`/comeon`|
+|R2+SELECT|-|コンパニオンから降りる|
+|L1+SELECT|MAP表示|（変更なし）|
+|L2+SELECT|-|クエストワープ|
 |START|キャンセル|（変更なし）|
 |L1+START|-|-|
 |L2+START|クエストアイテム使用|（変更なし）|
