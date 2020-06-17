@@ -120,6 +120,7 @@ function g.REMODELING_JOYSTICK_QUICKSLOT(enable)
 	local const = {}
 	local jsqFrame = ui.GetFrame('joystickquickslot')
 	local joystickRestFrame = ui.GetFrame('joystickrestquickslot')
+	local monsterQuickslot = ui.GetFrame('monsterquickslot')
 	
 	const[true]  = {270,120,-330,230,0,"yellow_14_ol","yellow_14_ol","L1+L2","L1+R2","R1+R2","R1+L2","L2+R2",9,11,9,11,1}
 	const[false] = {170, 15,-145,  3,1,"yellow_16_ol","yellow_14_ol","L1","L2","R1","R2","L1+R1",20,10,9,11,0}
@@ -147,7 +148,7 @@ function g.REMODELING_JOYSTICK_QUICKSLOT(enable)
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
 	jsqFrame:GetChild("Set2"):ShowWindow(const[enable][17])
 	
-	if IsJoyStickMode() == 1 and joystickRestFrame:IsVisible() == 0 then
+	if IsJoyStickMode() == 1 and joystickRestFrame:IsVisible() == 0 and monsterQuickslot:IsVisible() == 0 then
 		jsqFrame:ShowWindow(1)
 	end
 	
@@ -158,7 +159,7 @@ end
 function g.UI_MODE_CHANGE_HOOK(index)
 	g.UI_MODE_CHANGE(index)
 	if index == 1 then
-		g.REMODELING_JOYSTICKPLUS_QUICKSLOT()
+		g.REMODELING_JOYSTICK_QUICKSLOT(true)
 	end
 end
 
@@ -205,6 +206,14 @@ function g.JOYSTICK_QUICKSLOT_EXECUTE_HOOK(slotIndex)
 	end
 
 	local quickslotFrame = ui.GetFrame('joystickquickslot')
+	
+	if quickslotFrame ~= nil and quickslotFrame:IsVisible() == 0 then
+		local monsterquickslot = ui.GetFrame('monsterquickslot');
+        if monsterquickslot ~= nil and monsterquickslot:IsVisible() == 1 then
+            quickslotFrame = monsterquickslot;
+        end
+    end
+	
 	local slot = quickslotFrame:GetChildRecursively("slot"..slotIndex + 1)
 
 	QUICKSLOTNEXPBAR_SLOT_USE(quickSlotFrame, slot, 'None', 0)
