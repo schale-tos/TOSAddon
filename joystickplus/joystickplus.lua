@@ -228,6 +228,14 @@ function g.JOYSTICK_QUICKSLOT_SWAP_HOOK(test)
 	end
 end
 
+function g.JOYSTICK_QUICKSLOT_ON_MSG_HOOK(frame, msg, argStr, argNum)
+	g["JOYSTICK_QUICKSLOT_ON_MSG"](frame, msg, argStr, argNum)
+
+	if msg == 'RESET_ABILITY_ACTIVE' then
+		DebounceScript("JOYSTICK_QUICKSLOT_UPDATE_ALL_SLOT", 0.1, 0);
+	end
+end
+
 function g.KEYCONFIG_OPEN_CATEGORY_HOOK(frame, fileName, category)
 	local bg_ac_key = GET_CHILD(frame, "bg_ac_key")
 	local txt_action = GET_CHILD(bg_ac_key, "txt_action")
@@ -354,6 +362,7 @@ function g.ENABLE_HOOK(enable)
 	g.SETUP_HOOK(enable, "UPDATE_JOYSTICK_INPUT")
 	g.SETUP_HOOK(enable, "JOYSTICK_QUICKSLOT_EXECUTE")
 	g.SETUP_HOOK(enable, "JOYSTICK_QUICKSLOT_SWAP")
+	g.SETUP_HOOK(enable, "JOYSTICK_QUICKSLOT_ON_MSG")
 	g.SETUP_HOOK(enable, "KEYCONFIG_OPEN_CATEGORY")
 	g.SETUP_HOOK(enable, "KEYCONFIG_RESTORE_DEFAULT")
 end
