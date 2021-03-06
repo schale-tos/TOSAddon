@@ -3,7 +3,7 @@
 		"name" : "JoyStick Plus",
 		"file" : "joystickplus",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.5",
+		"fileVersion" : "v1.0.6",
 		"releaseTag" : "joystickplus",
 		"unicode" : "🐦",
 		"description" : "ジョイスティックのクイックスロットを拡張し、SET1とSET2を同時に表示、ボタンの割り当てを変更します。",
