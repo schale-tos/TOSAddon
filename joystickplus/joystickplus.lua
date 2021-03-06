@@ -412,24 +412,13 @@ end
 function g.ADD_SETTING(addon)
 	local sysopFrame = ui.GetFrame('systemoption')
 	local uiModeBox = sysopFrame:GetChildRecursively("uiModeBox")
-	local gamePVPSetting = sysopFrame:GetChildRecursively("gamePVPSetting")
-
-	gamePVPSetting:SetMargin(0, 30, 0, 0)
-
-	local controltype_2 = uiModeBox:GetChild("controltype_2")
-	controltype_2:SetMargin(20, 140, 0, 0)
-
-	local controltype_3 = uiModeBox:GetChild("controltype_3")
-	controltype_3:SetMargin(20, 170, 0, 0)
-
-	local mouseImg_1 = uiModeBox:GetChild("mouseImg_1")
-	mouseImg_1:SetMargin(20, 210, 0, 0)
 
 	uiModeBox = tolua.cast(uiModeBox, "ui::CGroupBox")
 	local controltype_jpex = uiModeBox:CreateOrGetControl("checkbox", "controltype_jpex", 0, 0, 0, 0)
 	controltype_jpex = tolua.cast(controltype_jpex, "ui::CCheckBox")
 	controltype_jpex:SetText("{@st66b}JoyStick+{/}")
-	controltype_jpex:SetMargin(40, 110, 0, 0)
+	controltype_jpex:SetGravity(ui.RIGHT, ui.TOP)
+	controltype_jpex:SetMargin(0, 0, 0, 0)
 	controltype_jpex:SetEventScript(ui.LBUTTONUP, "JOYSTICKPLUS_SYSTEMOPTION")
 
 	if g.config.enable == true then
