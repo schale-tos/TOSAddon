@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uiframe name="petplus" x="0" y="0" width="650" height="300"  create="open">
+	<frame title="" fasthide="false" layout_gravity="left top" margin="500 500 0 0" scale_align="center bottom"/>
+	<draw drawframe="false" drawtitlebar="false"/>
+	<input moveable="true" hittestframe="true" moveintitlebar="false"/>
+	<option visible="false" hideable="true" closebutton="true"/>
+	<controls>
+		<groupbox name="petplus_config" rect="0 0 650 290" margin="0 0 0 0" layout_gravity="center top" draw="true" hittestbox="false" skin="test_frame_low"/>
+		<picture name="petplus_config_titletextline" rect="0 0 450 40" margin="5 15 0 0" layout_gravity="left top" hittest="false" image="test_com_namebg"/>
+		<richtext name="titletext" rect="0 0 120 24" margin="20 23 0 0" layout_gravity="left top" caption="{@st66d}Pet+{/}" drawbackground="false" fixwidth="false" fontname="black_20" maxwidth="0" resizebytext="true" slideshow="false" spacey="0" textalign="center center" updateparent="false" hittest="false"/>
+		<checkbox name="hide_others_pet_name" rect="0 0 120 30" margin="20 80 0 0" layout_gravity="left top" LBtnUpArgStr="hide_others_pet_name" LBtnUpScp="PETPLUS_UPDATE_CONFIG" caption="{@st66b}Hide the name of the other's pet, if ShowOtherPCName option is disabled. {/}" clicksound="button_click_big" oversound="button_over"/>
+		<checkbox name="hide_hawk_gauge" rect="0 0 120 30" margin="20 110 0 0" layout_gravity="left top" LBtnUpArgStr="hide_hawk_gauge" LBtnUpScp="PETPLUS_UPDATE_CONFIG" caption="{@st66b}Hide HP/ST gauge of the hawk. {/}" clicksound="button_click_big" oversound="button_over"/>
+		<checkbox name="change_pet_name_color" rect="0 0 120 30" margin="20 140 0 0" layout_gravity="left top" LBtnUpArgStr="change_pet_name_color" LBtnUpScp="PETPLUS_UPDATE_CONFIG" caption="{@st66b}Change the font color of your pet's name, if AutoAttack is enabled. {/}" clicksound="button_click_big" oversound="button_over"/>
+		<checkbox name="call_pet_riding" rect="0 0 120 30" margin="20 170 0 0" layout_gravity="left top" LBtnUpArgStr="call_pet_riding" LBtnUpScp="PETPLUS_UPDATE_CONFIG" caption="{@st66b}Call pet when riding. {/}" clicksound="button_click_big" oversound="button_over"/>
+		<richtext name="cmd_help" rect="0 0 120 24" margin="20 210 0 0" layout_gravity="left top" caption="{@st66b}[Slash Command]{/}" drawbackground="false" fixwidth="false" fontname="black_20" maxwidth="0" resizebytext="true" slideshow="false" spacey="0" textalign="center center" updateparent="false" hittest="false"/>
+		<richtext name="cmd_summon" rect="0 0 120 24" margin="20 235 0 0" layout_gravity="left top" caption="{@st66b}/pet+ summon       : Switch your pet's summoning status.{/}" drawbackground="false" fixwidth="false" fontname="black_20" maxwidth="0" resizebytext="true" slideshow="false" spacey="0" textalign="center center" updateparent="false" hittest="false"/>
+		<richtext name="cmd_auto_attack" rect="0 0 120 24" margin="20 260 0 0" layout_gravity="left top" caption="{@st66b}/pet+ auto_attack  : Switch your pet's auto attack mode.{/}" drawbackground="false" fixwidth="false" fontname="black_20" maxwidth="0" resizebytext="true" slideshow="false" spacey="0" textalign="center center" updateparent="false" hittest="false"/>
+		<button name="closebtn" rect="0 0 44 44" margin="0 20 28 0" layout_gravity="right top" LBtnUpArgNum="" LBtnUpScp="ui.CloseFrame(&apos;petplus&apos;)" MouseOffAnim="btn_mouseoff" MouseOnAnim="btn_mouseover" caption="" clicksound="button_click_big" image="testclose_button" oversound="button_over"/>
+		<timer name="addontimer" rect="0 0 10 10"/>
+	</controls>
+</uiframe>
