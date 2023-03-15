@@ -129,11 +129,6 @@ function g.REMODELING_JOYSTICK_QUICKSLOT(enable)
 	jsqFrame:Resize(1920,const[enable][1])
 	jsqFrame:GetChild("Set2"):SetOffset(0,const[enable][2])
 
-	local refreshBtn = jsqFrame:GetChild("refreshBtn")
-	refreshBtn:SetMargin(const[enable][3],const[enable][4],0,0)
-	refreshBtn:SetGravity(ui.CENTER_HORZ, ui.TOP)
-	refreshBtn:ShowWindow(1)
-
 	jsqFrame:GetChild("L2R2"):ShowWindow(const[enable][5])
 	jsqFrame:GetChild("L2R2_Set1"):ShowWindow(const[enable][5])
 	jsqFrame:GetChild("L2R2_Set2"):ShowWindow(const[enable][5])
@@ -144,7 +139,7 @@ function g.REMODELING_JOYSTICK_QUICKSLOT(enable)
 	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("R2_Set2"), const[enable][11], const[enable][6], const[enable][13],const[enable][14],0,0)
 	g.CHANGE_RICHTEXT(jsqFrame:GetChildRecursively("L1+R1_Set2"), const[enable][12], const[enable][7], const[enable][15],const[enable][16],0,0)
 
-	QUICKSLOT_REQUEST_REFRESH(jsqFrame, refreshBtn)
+	JOYSTICK_QUICKSLOT_UPDATE_ALL_SLOT();
 	jsqFrame:GetChild("Set1"):ShowWindow(1)
 	jsqFrame:GetChild("Set2"):ShowWindow(const[enable][17])
 
