@@ -121,6 +121,7 @@ function g.REMODELING_JOYSTICK_QUICKSLOT(enable)
 	local jsqFrame = ui.GetFrame('joystickquickslot')
 	local joystickRestFrame = ui.GetFrame('joystickrestquickslot')
 	local monsterQuickslot = ui.GetFrame('monsterquickslot')
+	local refreshBtn = jsqFrame:GetChild('refreshBtn')
 
 	const[true]  = {270,120,-330,230,0,"yellow_14_ol","yellow_14_ol","L1+L2","L1+R2","R1+R2","R1+L2","L2+R2",9,11,9,11,1}
 	const[false] = {170, 15,-145,  3,1,"yellow_16_ol","yellow_14_ol","L1","L2","R1","R2","L1+R1",20,10,9,11,0}
@@ -128,6 +129,10 @@ function g.REMODELING_JOYSTICK_QUICKSLOT(enable)
 	jsqFrame:ShowWindow(0)
 	jsqFrame:Resize(1920,const[enable][1])
 	jsqFrame:GetChild("Set2"):SetOffset(0,const[enable][2])
+
+	refreshBtn:SetMargin(const[enable][3],const[enable][4],0,0)
+	refreshBtn:SetGravity(ui.CENTER_HORZ, ui.TOP)
+	refreshBtn:ShowWindow(1)
 
 	jsqFrame:GetChild("L2R2"):ShowWindow(const[enable][5])
 	jsqFrame:GetChild("L2R2_Set1"):ShowWindow(const[enable][5])
